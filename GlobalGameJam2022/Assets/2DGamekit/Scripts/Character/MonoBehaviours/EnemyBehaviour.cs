@@ -470,12 +470,12 @@ namespace Gamekit2D
             if (currentDimension == DimensionType.Overworld)
             {
                 currentDimension = DimensionType.Void;
-                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.transform.position.x, m_CharacterController2D.transform.position.y - 40);
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.transform.position.x, m_CharacterController2D.transform.position.y - 100);
             }
             else if (currentDimension == DimensionType.Void)
             {
                 currentDimension = DimensionType.Overworld;
-                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.transform.position.x, m_CharacterController2D.transform.position.y + 40);
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.transform.position.x, m_CharacterController2D.transform.position.y + 100);
             } 
             damageable.startingHealth += 1;
             damageable.SetHealth(damageable.startingHealth);

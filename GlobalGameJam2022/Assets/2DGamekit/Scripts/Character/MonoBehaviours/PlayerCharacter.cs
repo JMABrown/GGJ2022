@@ -54,6 +54,7 @@ namespace Gamekit2D
         public float bulletSpeed = 5f;
         public float holdingGunTimeoutDuration = 10f;
         public bool rightBulletSpawnPointAnimated = true;
+        public float warpCooldown = 0.33f;
 
         public float cameraHorizontalFacingOffset;
         public float cameraHorizontalSpeedOffset;
@@ -79,6 +80,7 @@ namespace Gamekit2D
         protected WaitForSeconds m_ShotSpawnWait;
         protected Coroutine m_ShootingCoroutine;
         protected float m_NextShotTime;
+        protected float m_NextWarpTime;
         protected bool m_IsFiring;
         protected float m_ShotTimer;
         protected float m_HoldingGunTimeRemaining;
@@ -137,6 +139,7 @@ namespace Gamekit2D
 
             m_ShotSpawnGap = 1f / shotsPerSecond;
             m_NextShotTime = Time.time;
+            m_NextWarpTime = Time.time;
             m_ShotSpawnWait = new WaitForSeconds(m_ShotSpawnGap);
 
             if (!Mathf.Approximately(maxHorizontalDeltaDampTime, 0f))
@@ -178,14 +181,11 @@ namespace Gamekit2D
 
         void Update()
         {
-            if (PlayerInput.Instance.MoveDimension.Down && m_CharacterController2D.Rigidbody2D.position.y > -5)
+            if (PlayerInput.Instance.MoveDimension.Down && CanWarp())
             {
-                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y - 40);
+                DoWarp();
             }
-            else if (PlayerInput.Instance.MoveDimension.Down && m_CharacterController2D.Rigidbody2D.position.y < -10)
-            {
-                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y + 40);
-            }
+            
             if (PlayerInput.Instance.Pause.Down)
             {
                 if (!m_InPause)
@@ -213,6 +213,24 @@ namespace Gamekit2D
             m_Animator.SetFloat(m_HashVerticalSpeedPara, m_MoveVector.y);
             UpdateBulletSpawnPointPositions();
             UpdateCameraFollowTargetPosition();
+        }
+
+        public bool CanWarp()
+        {
+            return m_NextWarpTime < Time.time;
+        }
+
+        public void DoWarp()
+        {
+            if (m_CharacterController2D.Rigidbody2D.position.y > -5)
+            {
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y - 100);
+            }
+            else if (m_CharacterController2D.Rigidbody2D.position.y < -10)
+            {
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y + 100);
+            }
+            m_NextWarpTime = Time.time + warpCooldown;
         }
 
         public void Unpause()
