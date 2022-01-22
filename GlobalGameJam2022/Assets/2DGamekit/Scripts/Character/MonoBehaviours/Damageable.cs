@@ -26,7 +26,7 @@ namespace Gamekit2D
         public Vector2 centreOffset = new Vector2(0f, 1f);
         public HealthEvent OnHealthSet;
         public DamageEvent OnTakeDamage;
-        public DamageEvent OnDie;
+        public DamageEvent ReviveOnOppositeDimension;
         public HealEvent OnGainHealth;
         [HideInInspector]
         public DataSettings dataSettings;
@@ -106,10 +106,10 @@ namespace Gamekit2D
 
             if (m_CurrentHealth <= 0)
             {
-                OnDie.Invoke(damager, this);
-                m_ResetHealthOnSceneReload = true;
-                EnableInvulnerability();
-                if (disableOnDeath) gameObject.SetActive(false);
+                ReviveOnOppositeDimension.Invoke(damager, this);
+                //m_ResetHealthOnSceneReload = true;
+                //EnableInvulnerability();
+                //if (disableOnDeath) gameObject.SetActive(false);
             }
         }
 
@@ -131,10 +131,10 @@ namespace Gamekit2D
 
             if (m_CurrentHealth <= 0)
             {
-                OnDie.Invoke(null, this);
-                m_ResetHealthOnSceneReload = true;
-                EnableInvulnerability();
-                if (disableOnDeath) gameObject.SetActive(false);
+                ReviveOnOppositeDimension.Invoke(null, this);
+                //m_ResetHealthOnSceneReload = true;
+                //EnableInvulnerability();
+                //if (disableOnDeath) gameObject.SetActive(false);
             }
 
             OnHealthSet.Invoke(this);

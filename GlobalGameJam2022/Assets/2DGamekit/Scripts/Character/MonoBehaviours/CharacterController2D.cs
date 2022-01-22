@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public enum DimensionType { Overworld, Void };
 namespace Gamekit2D
 {
     [RequireComponent(typeof(Rigidbody2D))]

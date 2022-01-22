@@ -96,6 +96,8 @@ namespace Gamekit2D
         protected readonly int m_HashDeathPara = Animator.StringToHash("Death");
         protected readonly int m_HashGroundedPara = Animator.StringToHash("Grounded");
 
+        public DimensionType currentDimension;
+
         private void Awake()
         {
             m_CharacterController2D = GetComponent<CharacterController2D>();
@@ -461,6 +463,26 @@ namespace Gamekit2D
             m_Collider.enabled = false;
 
             CameraShaker.Shake(0.15f, 0.3f);
+        }
+
+        public void ReviveOnOppositeDimension(Damager damage, Damageable damageable)
+        {
+            if (currentDimension == DimensionType.Overworld)
+            {
+                currentDimension = DimensionType.Void;
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.transform.position.x, m_CharacterController2D.transform.position.y - 40);
+            }
+            else if (currentDimension == DimensionType.Void)
+            {
+                currentDimension = DimensionType.Overworld;
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.transform.position.x, m_CharacterController2D.transform.position.y + 40);
+            } 
+            damageable.startingHealth += 1;
+            damageable.SetHealth(damageable.startingHealth);
+            if (damageable.startingHealth >= 10)
+            {
+                Die(meleeDamager, damageable);
+            }
         }
 
         public void Hit(Damager damager, Damageable damageable)

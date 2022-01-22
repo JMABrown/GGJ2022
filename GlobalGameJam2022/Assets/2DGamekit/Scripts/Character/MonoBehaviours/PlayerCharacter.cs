@@ -118,7 +118,6 @@ namespace Gamekit2D
         void Awake()
         {
             s_PlayerInstance = this;
-
             m_CharacterController2D = GetComponent<CharacterController2D>();
             m_Animator = GetComponent<Animator>();
             m_Capsule = GetComponent<CapsuleCollider2D>();
@@ -179,6 +178,14 @@ namespace Gamekit2D
 
         void Update()
         {
+            if (PlayerInput.Instance.MoveDimension.Down && m_CharacterController2D.Rigidbody2D.position.y > -5)
+            {
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y - 40);
+            }
+            else if (PlayerInput.Instance.MoveDimension.Down && m_CharacterController2D.Rigidbody2D.position.y < -10)
+            {
+                m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y + 40);
+            }
             if (PlayerInput.Instance.Pause.Down)
             {
                 if (!m_InPause)
@@ -610,7 +617,7 @@ namespace Gamekit2D
 
         IEnumerator FallThroughtInvincibility()
         {
-            damageable.EnableInvulnerability(true);
+            //damageable.EnableInvulnerability(true);
             yield return new WaitForSeconds(0.5f);
             damageable.DisableInvulnerability();
         }
@@ -687,7 +694,7 @@ namespace Gamekit2D
                 return;
 
             UpdateFacing(damageable.GetDamageDirection().x > 0f);
-            damageable.EnableInvulnerability();
+            //damageable.EnableInvulnerability();
 
             m_Animator.SetTrigger(m_HashHurtPara);
 

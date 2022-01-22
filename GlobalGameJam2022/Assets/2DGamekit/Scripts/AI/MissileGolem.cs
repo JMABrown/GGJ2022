@@ -90,7 +90,7 @@ public class MissileGolem : MonoBehaviour
     {
         if (PlayerCharacter.PlayerInstance != null)
         {
-            PlayerCharacter.PlayerInstance.damageable.OnDie.AddListener(PlayerDied);
+            PlayerCharacter.PlayerInstance.damageable.ReviveOnOppositeDimension.AddListener(PlayerDied);
         }
         originShieldScale = shield.transform.localScale;
         animator = GetComponent<Animator>();
@@ -181,7 +181,7 @@ public class MissileGolem : MonoBehaviour
     {
         if (PlayerCharacter.PlayerInstance != null)
         {
-            PlayerCharacter.PlayerInstance.damageable.OnDie.RemoveListener(PlayerDied);
+            PlayerCharacter.PlayerInstance.damageable.ReviveOnOppositeDimension.RemoveListener(PlayerDied);
         }
     }
 
@@ -321,7 +321,7 @@ public class MissileGolem : MonoBehaviour
     void NextRound()
     {
         damageable.SetHealth(rounds[round].bossHP);
-        damageable.EnableInvulnerability(true);
+        //damageable.EnableInvulnerability(true);
         foreach (var p in rounds[round].platforms)
         {
             p.gameObject.SetActive(true);

@@ -116,8 +116,8 @@ public class Enemy : PoolObject<EnemySpawner, Enemy, Vector2>
     {
         damageable = instance.GetComponent<Damageable>();
         enemyBehaviour = instance.GetComponent<EnemyBehaviour>();
-
-        damageable.OnDie.AddListener(ReturnToPoolEvent);
+        enemyBehaviour.currentDimension = DimensionType.Void;
+        //damageable.ReviveOnOppositeDimension.AddListener(ReturnToPoolEvent);
 
         m_RemoveWait = new WaitForSeconds(objectPool.removalDelay);
     }
@@ -137,7 +137,7 @@ public class Enemy : PoolObject<EnemySpawner, Enemy, Vector2>
     public override void Sleep()
     {
         instance.SetActive(false);
-        damageable.EnableInvulnerability();
+        //damageable.EnableInvulnerability();
     }
 
     protected void ReturnToPoolEvent(Damager dmgr, Damageable dmgbl)
