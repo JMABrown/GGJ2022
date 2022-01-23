@@ -11,7 +11,7 @@ public class Bridge : MonoBehaviour
     {
         if (collisionDetected)
         {
-            transform.Rotate(0, 0, 10 * Time.deltaTime);
+            transform.Rotate(0, 0, 30 * Time.deltaTime);
 
             if (transform.rotation.eulerAngles.z >= 100) collisionDetected = false;
         }

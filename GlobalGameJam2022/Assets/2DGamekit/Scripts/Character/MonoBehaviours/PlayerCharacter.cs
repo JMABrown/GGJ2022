@@ -740,6 +740,13 @@ namespace Gamekit2D
             StartCoroutine(DieRespawnCoroutine(true, false));
         }
 
+        public void OnDieInstant()
+        {
+            m_Animator.SetTrigger(m_HashDeadPara);
+
+            StartCoroutine(DieInstantRespawnCoroutine(true, false));
+        }
+
         IEnumerator DieRespawnCoroutine(bool resetHealth, bool useCheckPoint)
         {
             PlayerInput.Instance.ReleaseControl(true);
@@ -747,6 +754,19 @@ namespace Gamekit2D
             yield return StartCoroutine(ScreenFader.FadeSceneOut(useCheckPoint ? ScreenFader.FadeType.Black : ScreenFader.FadeType.GameOver));
             if(!useCheckPoint)
                 yield return new WaitForSeconds (2f);
+            Respawn(resetHealth, useCheckPoint);
+            yield return new WaitForEndOfFrame();
+            yield return StartCoroutine(ScreenFader.FadeSceneIn());
+            PlayerInput.Instance.GainControl();
+        }
+
+        IEnumerator DieInstantRespawnCoroutine(bool resetHealth, bool useCheckPoint)
+        {
+            PlayerInput.Instance.ReleaseControl(true);
+            yield return new WaitForSeconds(0.1f); //wait one second before respawing
+            yield return StartCoroutine(ScreenFader.FadeSceneOut(useCheckPoint ? ScreenFader.FadeType.Black : ScreenFader.FadeType.GameOver));
+            if (!useCheckPoint)
+                yield return new WaitForSeconds(0.1f);
             Respawn(resetHealth, useCheckPoint);
             yield return new WaitForEndOfFrame();
             yield return StartCoroutine(ScreenFader.FadeSceneIn());
@@ -804,6 +824,8 @@ namespace Gamekit2D
         {
             if (resetHealth)
                 damageable.SetHealth(damageable.startingHealth);
+
+            m_IsOnOverworld = true;
 
             //we reset the hurt trigger, as we don't want the player to go back to hurt animation once respawned
             m_Animator.ResetTrigger(m_HashHurtPara);
