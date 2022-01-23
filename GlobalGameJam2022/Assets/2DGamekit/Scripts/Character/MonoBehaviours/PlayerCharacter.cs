@@ -95,6 +95,7 @@ namespace Gamekit2D
         protected bool m_StartingFacingLeft = false;
 
         protected bool m_InPause = false;
+        protected bool m_IsOnOverworld = true;
 
         protected readonly int m_HashHorizontalSpeedPara = Animator.StringToHash("HorizontalSpeed");
         protected readonly int m_HashVerticalSpeedPara = Animator.StringToHash("VerticalSpeed");
@@ -223,15 +224,16 @@ namespace Gamekit2D
 
         public void DoWarp()
         {
-            if (m_CharacterController2D.Rigidbody2D.position.y > -5)
+            if (m_IsOnOverworld)
             {
                 m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y - 100);
             }
-            else if (m_CharacterController2D.Rigidbody2D.position.y < -10)
+            else
             {
                 m_CharacterController2D.transform.position = new Vector2(m_CharacterController2D.Rigidbody2D.position.x, m_CharacterController2D.Rigidbody2D.position.y + 100);
             }
             m_NextWarpTime = Time.time + warpCooldown;
+            m_IsOnOverworld = !m_IsOnOverworld;
         }
 
         public void Unpause()
