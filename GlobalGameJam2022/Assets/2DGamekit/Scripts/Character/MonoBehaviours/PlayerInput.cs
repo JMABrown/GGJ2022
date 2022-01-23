@@ -65,6 +65,8 @@ namespace Gamekit2D
             Horizontal.Get(inputType);
             Vertical.Get(inputType);
 
+            MoveDimension.ReleaseControl(true);
+
             if (Input.GetKeyDown(KeyCode.F12))
             {
                 m_DebugMenuIsOpen = !m_DebugMenuIsOpen;
@@ -79,6 +81,7 @@ namespace Gamekit2D
             GainControl(Interact);
             GainControl(MeleeAttack);
             GainControl(RangedAttack);
+            GainControl(MoveDimension);
             GainControl(Jump);
             GainControl(Horizontal);
             GainControl(Vertical);
@@ -93,6 +96,7 @@ namespace Gamekit2D
             ReleaseControl(MeleeAttack, resetValues);
             ReleaseControl(RangedAttack, resetValues);
             ReleaseControl(Jump, resetValues);
+            ReleaseControl(MoveDimension, resetValues);
             ReleaseControl(Horizontal, resetValues);
             ReleaseControl(Vertical, resetValues);
         }

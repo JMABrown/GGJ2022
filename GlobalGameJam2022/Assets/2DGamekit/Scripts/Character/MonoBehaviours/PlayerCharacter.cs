@@ -116,6 +116,8 @@ namespace Gamekit2D
         //used in non alloc version of physic function
         protected ContactPoint2D[] m_ContactsBuffer = new ContactPoint2D[16];
 
+
+        public bool unlockedWarpAbility = false;
         // MonoBehaviour Messages - called by Unity internally.
         void Awake()
         {
@@ -125,7 +127,6 @@ namespace Gamekit2D
             m_Capsule = GetComponent<CapsuleCollider2D>();
             m_Transform = transform;
             m_InventoryController = GetComponent<InventoryController>();
-
             m_CurrentBulletSpawnPoint = spriteOriginallyFacesLeft ? facingLeftBulletSpawnPoint : facingRightBulletSpawnPoint;
         }
 
@@ -181,7 +182,7 @@ namespace Gamekit2D
 
         void Update()
         {
-            if (PlayerInput.Instance.MoveDimension.Down && CanWarp())
+            if (PlayerInput.Instance.MoveDimension.Down && CanWarp() && unlockedWarpAbility)
             {
                 DoWarp();
             }
@@ -832,6 +833,12 @@ namespace Gamekit2D
         public void KeyInventoryEvent()
         {
             if (KeyUI.Instance != null) KeyUI.Instance.ChangeKeyUI(m_InventoryController);
+        }
+
+        public void WarpAbility()
+        {
+            PlayerInput.Instance.MoveDimension.GainControl();
+            unlockedWarpAbility = true;
         }
     }
 }

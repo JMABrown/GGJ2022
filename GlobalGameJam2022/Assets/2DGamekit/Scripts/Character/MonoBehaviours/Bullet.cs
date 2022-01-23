@@ -70,6 +70,10 @@ namespace Gamekit2D
 
         protected void FindSurface(Collider2D collider)
         {
+            Bridge bridgeScript = collider.GetComponent<Bridge>();
+            if (bridgeScript != null) bridgeScript.SetCollision(true);
+
+
             Vector3 forward = spriteOriginallyFacesLeft ? Vector3.left : Vector3.right;
             if (m_SpriteRenderer.flipX) forward.x = -forward.x;
 

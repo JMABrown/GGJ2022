@@ -8,6 +8,7 @@ namespace Gamekit2D
     [CustomEditor(typeof(PressurePad))]
     public class PressurePadEditor : Editor
     {
+        SerializedProperty m_warpUnlockGameObject;
         SerializedProperty m_PlatformCatcherProp;
         SerializedProperty m_ActivationTypeProp;
         SerializedProperty m_RequiredCountProp;
@@ -20,6 +21,7 @@ namespace Gamekit2D
 
         void OnEnable ()
         {
+            m_warpUnlockGameObject = serializedObject.FindProperty("warpAbilityKeyObject");
             m_PlatformCatcherProp = serializedObject.FindProperty ("platformCatcher");
             m_ActivationTypeProp = serializedObject.FindProperty("activationType");
             m_RequiredCountProp = serializedObject.FindProperty("requiredCount");
@@ -36,6 +38,7 @@ namespace Gamekit2D
             serializedObject.Update ();
 
             EditorGUILayout.PropertyField (m_PlatformCatcherProp);
+            EditorGUILayout.PropertyField(m_warpUnlockGameObject);
             EditorGUILayout.PropertyField (m_ActivationTypeProp);
             if((PressurePad.ActivationType)m_ActivationTypeProp.enumValueIndex == PressurePad.ActivationType.ItemCount)
                 EditorGUILayout.PropertyField (m_RequiredCountProp);

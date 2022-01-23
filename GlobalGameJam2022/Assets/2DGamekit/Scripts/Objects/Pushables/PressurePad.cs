@@ -16,6 +16,7 @@ namespace Gamekit2D
         }
 
         public PlatformCatcher platformCatcher;
+        public GameObject warpAbilityKeyObject;
         public ActivationType activationType;
         public int requiredCount;
         public float requiredMass;
@@ -38,6 +39,10 @@ namespace Gamekit2D
         protected GUIStyle errorBackgroundStyle = new GUIStyle();
 #endif
 
+        private void Update()
+        {
+            warpAbilityKeyObject.transform.Rotate(0, 20 * Time.deltaTime, 0);
+        }
         void FixedUpdate()
         {
             if (activationType == ActivationType.ItemCount)
